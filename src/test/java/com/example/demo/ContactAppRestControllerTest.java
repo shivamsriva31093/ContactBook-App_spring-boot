@@ -90,7 +90,7 @@ public class ContactAppRestControllerTest {
 
     @Test
     public void userNotFound() throws Exception {
-        mockMvc.perform(post("/contactapp/save")
+        mockMvc.perform(post("/contactapp/save/2")
                 .content(this.json(new ContactsEntity("", "", "", "")))
                 .contentType(contentType))
                 .andExpect(status().isNotFound());
