@@ -16,5 +16,5 @@ public interface ContactsRepository extends PagingAndSortingRepository<ContactsE
 
     Page<ContactsEntity> findByContactEmailStartsWith(String email, Pageable pageable);
 
-    Page<ContactsEntity> findByContactPhoneLike(String phone, Pageable pageable);
+    Page<ContactsEntity> findByContactFirstnameLike(String name, Pageable pageable);
 }

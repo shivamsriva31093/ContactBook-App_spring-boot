@@ -128,6 +128,15 @@ public class ContactAppRestControllerTest {
     }
 
     @Test
+    public void getContactByName() throws Exception {
+        this.mockMvc.perform(get("/contactapp/searchByName?keyword=a")
+                .contentType(contentType))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.totalElements", is(5)));
+    }
+
+
+    @Test
     public void deleteContact() throws Exception {
         this.mockMvc.perform(delete("/contactapp/delete/" + this.contactsEntities.get(0).getId()))
                 .andExpect(status().isOk());

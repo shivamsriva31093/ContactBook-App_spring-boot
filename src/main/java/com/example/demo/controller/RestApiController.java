@@ -11,7 +11,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.Collection;
 
 @RestController
 @RequestMapping("/contactapp")
@@ -29,9 +28,11 @@ public class RestApiController {
         return contactsRepository.findByContactEmailStartsWith(keyword, pageable);
     }
 
-    @GetMapping("/searchByPhone")
+
+
+    @GetMapping("/searchByName")
     Page<ContactsEntity> getContactsPhoneLike(@RequestParam(value = "keyword") String keyword, Pageable pageable) {
-        return contactsRepository.findByContactPhoneLike(keyword, pageable);
+        return contactsRepository.findByContactFirstnameLike(keyword, pageable);
     }
 
     @GetMapping("/get/{id}")
