@@ -3,6 +3,9 @@ package com.example.demo.controller;
 import com.example.demo.model.ContactsEntity;
 import com.example.demo.repo.ContactsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -21,9 +24,14 @@ public class RestApiController {
         this.contactsRepository = contactsRepository;
     }
 
-    @GetMapping("/get")
-    Collection<ContactsEntity> getContactsLike(@RequestParam(value = "keyword", required = true) String keyword) {
-        return contactsRepository.findAllByContactEmailContaining(keyword);
+    @GetMapping("/searchByMail")
+    Page<ContactsEntity> getContactsLike(@RequestParam(value = "keyword") String keyword, @PageableDefault(page = 0, size = 10)Pageable pageable) {
+        return contactsRepository.findByContactEmailStartsWith(keyword, pageable);
+    }
+
+    @GetMapping("/searchByPhone")
+    Page<ContactsEntity> getContactsPhoneLike(@RequestParam(value = "keyword") String keyword, Pageable pageable) {
+        return contactsRepository.findByContactPhoneLike(keyword, pageable);
     }
 
     @GetMapping("/get/{id}")

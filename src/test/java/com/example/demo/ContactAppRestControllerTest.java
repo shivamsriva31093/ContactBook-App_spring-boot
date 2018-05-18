@@ -25,6 +25,7 @@ import java.util.List;
 import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertNotNull;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
@@ -116,6 +117,27 @@ public class ContactAppRestControllerTest {
                 .contentType(contentType)
                 .content(bookmarkJson))
                 .andExpect(status().isCreated());
+    }
+
+    @Test
+    public void getContactByEmail() throws Exception {
+        this.mockMvc.perform(get("/contactapp/searchByMail?keyword=as")
+                .contentType(contentType))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.totalElements", is(5)));
+    }
+
+    @Test
+    public void deleteContact() throws Exception {
+        this.mockMvc.perform(delete("/contactapp/delete/" + this.contactsEntities.get(0).getId()))
+                .andExpect(status().isOk());
+    }
+
+    @Test
+    public void deleteContactNegativeTest() throws  Exception {
+        this.mockMvc.perform(delete("/contactapp/delete/2"))
+                .andExpect(status().isNotFound());
+//                .andExpect(jsonPath("$.message", is("could not find user \'"+2+"\'.")));
     }
 
     protected String json(Object o) throws IOException {
